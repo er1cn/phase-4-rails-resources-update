@@ -1,5 +1,27 @@
 class BirdsController < ApplicationController
 
+   #PATCH /birds/:id
+
+   def increment_likes
+    bird= Bird.find_by(:id params[:id])
+    bird.update(likes: bird.likes +1
+    render json: bird)
+   end
+   
+  def update
+    #find the bird we're trying to update
+    #update the bird,using the data from body
+    #send a response with the updated bird
+    bird = Bird.find_by(id:params[:id])
+    if bird
+      bird.update(bird_params)
+      render json: bird
+    else
+      render json: {error: "Bird not found"}, status: :not_found
+    end
+  end
+
+
   # GET /birds
   def index
     birds = Bird.all
@@ -25,7 +47,7 @@ class BirdsController < ApplicationController
   private
 
   def bird_params
-    params.permit(:name, :species)
+    params.permit(:name, :species, :likes)
   end
 
-end
+end  
